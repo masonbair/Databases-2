@@ -51,6 +51,7 @@ CREATE TABLE Student(
 	email varchar(20) CHECK (REGEXP_LIKE(email, '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')),
 	phone varchar(9),
 	student_password varchar(12),
+	attends_uni BOOLEAN DEFAULT TRUE,
 	PRIMARY KEY(student_id)
 );
 
@@ -103,3 +104,12 @@ ALTER TABLE Student ADD COLUMN library_card INT;
 ALTER TABLE Student ADD FOREIGN KEY (library_card) REFERENCES library_card(library_num);
 
 
+SELECT * FROM Student;
+
+INSERT INTO library_card( date_act) VALUES (CURRENT_TIME);
+
+INSERT INTO Student(student_id, first_name, last_name, address, email, phone, student_password, attends_uni, library_card)
+VALUES (1, "Mason", "Bair", "hahaha", "mason@gmail.com", "440440", "1234", TRUE, 1);
+
+INSERT INTO Student(student_id, first_name, last_name, address, email, phone, student_password, library_card)
+VALUES (2, "Mason", "Bair", "hahaha", "mason@gmail.com", "440440", "1234", 1);
