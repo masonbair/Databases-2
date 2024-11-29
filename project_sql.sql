@@ -113,3 +113,6 @@ VALUES (1, "Mason", "Bair", "hahaha", "mason@gmail.com", "440440", "1234", TRUE,
 
 INSERT INTO Student(student_id, first_name, last_name, address, email, phone, student_password, library_card)
 VALUES (2, "Mason", "Bair", "hahaha", "mason@gmail.com", "440440", "1234", 1);
+
+INSERT INTO resource_card(r_number, date_act, status, resource)
+VALUES (1, CURRENT_DATE, "Active", "Book");
