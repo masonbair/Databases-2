@@ -23,15 +23,17 @@ public class AmFrame extends JPanel{
 		this.add(center, BorderLayout.CENTER);
 		this.add(panel_but, BorderLayout.SOUTH);
 		
-		ListenerAm listener = new ListenerAm();
+		ListenerAm listener = new ListenerAm(center);
 		butt_reg.setActionCommand(listener.REG);
 		butt_reg.addActionListener(listener);
-		
+
 		butt_del.setActionCommand(listener.DEL);
 		butt_del.addActionListener(listener);
 		
 		butt_ass.setActionCommand(listener.ASS);
 		butt_ass.addActionListener(listener);
 	}
+
+
 
 }

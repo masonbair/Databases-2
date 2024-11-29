@@ -37,8 +37,11 @@ public class AmCenter extends JPanel{
 	JPanel card_2 = new JPanel(new GridLayout(2,1));
 	JPanel card_3 = new JPanel(new GridLayout(2,1));
 
+
+
+
 	public AmCenter() {
-		
+
 		this.setLayout(new GridLayout(3,3));
 		//stud_line
 		stud_1.add(txt_stud_id);
@@ -82,5 +85,35 @@ public class AmCenter extends JPanel{
 		this.add(res_1);
 		this.add(res_2);
 		this.add(res_3);
+	}
+	public String get_stu_id(){
+		return stud_id.getText();
+	}
+	public String get_stud_name(){
+		return stud_name.getText();
+	}
+	public String get_stud_surname(){
+		return stud_surname.getText();
+	}
+	public String get_res_id(){
+		return res_id.getText();
+	}
+	public String res_id(){
+		return stud_id.getText();
+	}
+	public String get_res_type(){
+		return res_type.getText();
+	}
+	public String get_res_price(){
+		return res_price.getText();
+	}
+	public String get_card_code(){
+		return card_code.getText();
+	}
+	public String get_card_status(){
+		return card_status.getText();
+	}
+	public String get_card_res(){
+		return card_res.getText();
 	}
 }
