@@ -116,4 +116,16 @@ public class AmCenter extends JPanel{
 	public String get_card_res(){
 		return card_res.getText();
 	}
+
+	public void clear_text_boxes(){
+		stud_id.setText("");
+		stud_name.setText("");
+		stud_surname.setText("");
+		res_id.setText("");
+		res_type.setText("");
+		res_price.setText("");
+		card_code.setText("");
+		card_status.setText("");
+		card_res.setText("");
+	}
 }
