@@ -10,9 +10,9 @@ public class AmCenter extends JPanel{
 	private JLabel txt_stud_id = new JLabel("Student_id");
 	private JLabel txt_stud_name = new JLabel("First_name");
 	private JLabel txt_stud_surname = new JLabel("Last_name");
-	private JLabel txt_res_id = new JLabel("Resource_id");
-	private JLabel txt_res_type = new JLabel("Resouce_type");
-	private JLabel txt_res_price = new JLabel("Resouce_price");
+	private JLabel txt_res_id = new JLabel("Resource_card");
+	private JLabel txt_res_type = new JLabel("Resource_card_type");
+	private JLabel txt_res_price = new JLabel("Resource_status");
 	private JLabel txt_card_code = new JLabel("Card_barcode");
 	private JLabel txt_card_status = new JLabel("Card_status");
 	private JLabel txt_card_res = new JLabel("Card_res");
@@ -22,10 +22,17 @@ public class AmCenter extends JPanel{
 	public JTextField stud_surname = new  JTextField ();
 	public JTextField res_id = new  JTextField ();
 	public JTextField res_type = new  JTextField ();
-	public JTextField res_price = new  JTextField ();
+	public JTextField res_status = new  JTextField ();
 	public JTextField card_code = new  JTextField ();
 	public JTextField card_status = new  JTextField ();
 	public JTextField card_res = new  JTextField ();
+
+	public JTextField cp_book_barcode = new  JTextField ();
+	public JTextField cp_book_reference = new  JTextField ();
+	public JTextField cp_book_price = new  JTextField ();
+	public JTextField cp_book_rack = new JTextField();
+
+
 	
 	JPanel stud_1 = new JPanel(new GridLayout(2,1));
 	JPanel stud_2 = new JPanel(new GridLayout(2,1));
@@ -36,8 +43,6 @@ public class AmCenter extends JPanel{
 	JPanel card_1 = new JPanel(new GridLayout(2,1));
 	JPanel card_2 = new JPanel(new GridLayout(2,1));
 	JPanel card_3 = new JPanel(new GridLayout(2,1));
-
-
 
 
 	public AmCenter() {
@@ -61,7 +66,7 @@ public class AmCenter extends JPanel{
 		res_2.add(res_type);
 		
 		res_3.add(txt_res_price);
-		res_3.add(res_price);
+		res_3.add(res_status);
 		
 		//card_line
 		card_1.add(txt_card_code);
@@ -85,6 +90,7 @@ public class AmCenter extends JPanel{
 		this.add(res_1);
 		this.add(res_2);
 		this.add(res_3);
+
 	}
 	public String get_stu_id(){
 		return stud_id.getText();
@@ -104,8 +110,8 @@ public class AmCenter extends JPanel{
 	public String get_res_type(){
 		return res_type.getText();
 	}
-	public String get_res_price(){
-		return res_price.getText();
+	public String get_res_status(){
+		return res_status.getText();
 	}
 	public String get_card_code(){
 		return card_code.getText();
@@ -123,9 +129,36 @@ public class AmCenter extends JPanel{
 		stud_surname.setText("");
 		res_id.setText("");
 		res_type.setText("");
-		res_price.setText("");
+		res_status.setText("");
 		card_code.setText("");
 		card_status.setText("");
 		card_res.setText("");
+	}
+
+	public void openAddBookDialog() {
+		// Get the parent frame (you might need to adjust this depending on your main application structure)
+		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		Book_Resource addBookDialog = new Book_Resource(parentFrame);
+		addBookDialog.setVisible(true);
+	}
+	public void openAddComputerDialog() {
+		// Get the parent frame (you might need to adjust this depending on your main application structure)
+		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		Computer_Resource addComputerDialog = new Computer_Resource(parentFrame);
+		addComputerDialog.setVisible(true);
+	}
+
+	public void openAddRoomDialog() {
+		// Get the parent frame (you might need to adjust this depending on your main application structure)
+		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		Room_Resource addRoomDialog = new Room_Resource(parentFrame);
+		addRoomDialog.setVisible(true);
+	}
+
+	public void openNewBookCopyDialog() {
+		// Get the parent frame (you might need to adjust this depending on your main application structure)
+		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		Copy_Book_Resource addRoomDialog = new Copy_Book_Resource(parentFrame);
+		addRoomDialog.setVisible(true);
 	}
 }

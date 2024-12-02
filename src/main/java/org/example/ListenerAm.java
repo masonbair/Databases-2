@@ -12,6 +12,10 @@ public class ListenerAm implements ActionListener {
 	public static final String REG = "Register";
 	public static final String DEL = "Delete";
 	public static final String ASS = "Associate";
+	public static final String BOOK = "Add_Book";
+	public static final String ROOM = "Add_Room";
+	public static final String COMP = "Add_Computer";
+	public static final String COPY = "Add_Book_Copy";
 
 	private Database db = null;
 	private Connection connection = null;
@@ -45,6 +49,14 @@ public class ListenerAm implements ActionListener {
 
 			associationRegistration();
 			center.clear_text_boxes();
+		} else if(e.getActionCommand().equals(BOOK)){
+			center.openAddBookDialog();
+		} else if(e.getActionCommand().equals(ROOM)){
+			center.openAddComputerDialog();
+		} else if(e.getActionCommand().equals(COMP)){
+			center.openAddBookDialog();
+		}else if(e.getActionCommand().equals(COPY)){
+			center.openNewBookCopyDialog();
 		}
 		
 	}
@@ -68,9 +80,9 @@ public class ListenerAm implements ActionListener {
 
 			}
 			if (center.get_res_id().length() != 0) {
-				preparedStatement = connection.prepareStatement("INSERT INTO resource_card(r_number, resource, lib_card) VALUES (?, ?, 1)");
+				preparedStatement = connection.prepareStatement("INSERT INTO resource_card(r_number, status, resource, lib_card) VALUES (?, ?, ?, 1)");
 				preparedStatement.setString(1, center.get_res_id());
-				//preparedStatement.setString(2, center.get_res_price());
+				preparedStatement.setString(2, center.get_res_status());
 				preparedStatement.setString(2, center.get_res_type());
 				preparedStatement.execute();
 				System.out.println("Added Resource");
@@ -135,4 +147,6 @@ public class ListenerAm implements ActionListener {
 			System.out.println(e);
 		}
 	}
+
+
 }

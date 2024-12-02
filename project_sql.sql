@@ -6,7 +6,7 @@ CREATE DATABASE Project2;
 USE Project2;
 
 CREATE TABLE Book(
-	reference_id INT NOT NULL UNIQUE,
+	reference_id INT NOT NULL UNIQUE AUTO_INCREMENT,
 	title VARCHAR(15),
 	language VARCHAR(10),
 	pages INT,
@@ -27,9 +27,11 @@ CREATE TABLE BookCopy(
 	FOREIGN KEY (book_ref) REFERENCES Book(reference_id)
 )
 
+DROP TABLE Computer ;
+
 CREATE TABLE Computer(
 	barcode INT NOT NULL UNIQUE,
-	model INT,
+	model varchar(15),
 	date_prod DATE default (CURRENT_DATE),
 	rack_num INT,
 	PRIMARY KEY (barcode)
