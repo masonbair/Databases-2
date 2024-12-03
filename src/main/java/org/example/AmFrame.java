@@ -11,10 +11,10 @@ public class AmFrame extends JPanel{
 	private JButton butt_reg = new JButton("Register");
 	private JButton butt_del = new JButton("Delete");
 	private JButton butt_ass = new JButton("Associate");
-	private JButton book_button = new JButton("Add Book");
-	private JButton room_button = new JButton("Add Room");
-	private JButton comp_button = new JButton("Add Computer");
-	private JButton cp_book_button = new JButton("Add Book Copy");
+	private JButton book_button = new JButton("Modify Book");
+	private JButton room_button = new JButton("Modify Room");
+	private JButton comp_button = new JButton("Modify Computer");
+	private JButton cp_book_button = new JButton("Modify Book Copy");
 	private JPanel panel_but = new JPanel(new GridLayout(3,3));
 
 	public AmFrame() {

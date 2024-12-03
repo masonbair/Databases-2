@@ -52,9 +52,9 @@ public class ListenerAm implements ActionListener {
 		} else if(e.getActionCommand().equals(BOOK)){
 			center.openAddBookDialog();
 		} else if(e.getActionCommand().equals(ROOM)){
-			center.openAddComputerDialog();
+			center.openAddRoomDialog();
 		} else if(e.getActionCommand().equals(COMP)){
-			center.openAddBookDialog();
+			center.openAddComputerDialog();
 		}else if(e.getActionCommand().equals(COPY)){
 			center.openNewBookCopyDialog();
 		}

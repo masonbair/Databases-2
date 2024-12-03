@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Book_Resource extends JDialog {
     private JTextField titleField;
@@ -15,7 +16,9 @@ public class Book_Resource extends JDialog {
     private JTextField subjectField;
     private JTextField authorField;
     private JTextField publisherField;
+
     private JButton saveButton;
+    private JButton deleteButton;
     private JButton cancelButton;
 
     //DB STUFF
@@ -34,7 +37,7 @@ public class Book_Resource extends JDialog {
             System.out.println(e.getStackTrace());
         }
 
-        setLayout(new GridLayout(8, 2, 10, 10));
+        setLayout(new GridLayout(9, 2, 10, 10));
         setSize(400, 400);
         setLocationRelativeTo(parent);
 
@@ -69,9 +72,11 @@ public class Book_Resource extends JDialog {
 
         // Save and Cancel buttons
         saveButton = new JButton("Save Book");
+        deleteButton = new JButton("Delete Book");
         cancelButton = new JButton("Cancel");
 
         add(saveButton);
+        add(deleteButton);
         add(cancelButton);
 
         // Action listeners
@@ -79,6 +84,13 @@ public class Book_Resource extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveBook();
+            }
+        });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteBook();
             }
         });
 
@@ -124,6 +136,44 @@ public class Book_Resource extends JDialog {
             System.out.println(e);
         }
 
+
+        // Clear fields after saving
+        clearFields();
+
+        // Close the dialog
+        dispose();
+    }
+
+    private void deleteBook(){
+        String title = titleField.getText();
+        try {
+            preparedStatement = connection.prepareStatement("SELECT reference_id FROM Book WHERE title=?");
+            preparedStatement.setString(1, title);
+
+            System.out.println("Executing first Statement");
+            ResultSet rs = preparedStatement.executeQuery();
+            System.out.println("First successful");
+
+            int bookNumber = -1;
+
+            if(rs.next()){
+                bookNumber = rs.getInt("reference_id");
+                preparedStatement = connection.prepareStatement("DELETE FROM BookCopy WHERE book_ref=?");
+                preparedStatement.setInt(1, bookNumber);
+                preparedStatement.executeUpdate();
+
+                preparedStatement = connection.prepareStatement("DELETE FROM Book WHERE reference_id=?");
+                preparedStatement.setInt(1, bookNumber);
+                preparedStatement.execute();
+
+                System.out.println("Deleted Book");
+
+            }else{
+                JOptionPane.showMessageDialog(this,"No Book Found with the given title: " + title);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         // Clear fields after saving
         clearFields();

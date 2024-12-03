@@ -6,25 +6,25 @@ CREATE DATABASE Project2;
 USE Project2;
 
 CREATE TABLE Book(
-	reference_id INT NOT NULL UNIQUE AUTO_INCREMENT,
-	title VARCHAR(15),
+	title VARCHAR(30) NOT NULL UNIQUE,
 	language VARCHAR(10),
 	pages INT,
 	year_prod INT,
 	subject VARCHAR(15),
 	author VARCHAR(15),
 	publisher VARCHAR(15),
-	PRIMARY KEY (reference_id)
+	PRIMARY KEY (title)
 )
 
 CREATE TABLE BookCopy(
 	barcode INT NOT NULL UNIQUE AUTO_INCREMENT,
-	book_ref INT,
+	book_ref VARCHAR(30),
 	price INT,
 	date_prod DATE default (CURRENT_DATE),
 	rack_num INT,
+	copy_language VARCHAR(15),
 	PRIMARY KEY (barcode),
-	FOREIGN KEY (book_ref) REFERENCES Book(reference_id)
+	FOREIGN KEY (book_ref) REFERENCES Book(title)
 )
 
 DROP TABLE Computer ;

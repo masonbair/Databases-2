@@ -11,7 +11,9 @@ public class Computer_Resource extends JDialog {
     private JTextField barcode;
     private JTextField model;
     private JTextField rack_num;
+
     private JButton saveButton;
+    private JButton deleteButton;
     private JButton cancelButton;
 
     //DB STUFF
@@ -50,9 +52,11 @@ public class Computer_Resource extends JDialog {
 
         // Save and Cancel buttons
         saveButton = new JButton("Save Computer");
+        deleteButton = new JButton("Delete Computer");
         cancelButton = new JButton("Cancel");
 
         add(saveButton);
+        add(deleteButton);
         add(cancelButton);
 
         // Action listeners
@@ -60,6 +64,13 @@ public class Computer_Resource extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveComputer();
+            }
+        });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteComputer();
             }
         });
 
@@ -92,6 +103,37 @@ public class Computer_Resource extends JDialog {
             preparedStatement.setString(3, rack);
             preparedStatement.execute();
             System.out.println("Added Computer");
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+
+
+        // Clear fields after saving
+        clearFields();
+
+        // Close the dialog
+        dispose();
+    }
+
+    private void deleteComputer() {
+        String code = barcode.getText();
+
+        //Validation
+        if (code.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Barcode is a required field!",
+                    "Validation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try{
+            preparedStatement = connection.prepareStatement("DELETE FROM Computer WHERE barcode=?");
+            preparedStatement.setString(1, code);
+
+            preparedStatement.execute();
+            System.out.println("Deleted Computer");
         }catch(Exception e){
             System.out.println(e);
         }
