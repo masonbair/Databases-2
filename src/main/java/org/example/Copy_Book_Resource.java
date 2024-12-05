@@ -120,6 +120,7 @@ public class Copy_Book_Resource extends JDialog {
             preparedStatement.execute();
             System.out.println("Added Copy of Book");
         }catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
             System.out.println(e);
         }
 
@@ -150,6 +151,7 @@ public class Copy_Book_Resource extends JDialog {
             preparedStatement.execute();
             System.out.println("Deleted Copy of Book");
         }catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
             System.out.println(e);
         }
 

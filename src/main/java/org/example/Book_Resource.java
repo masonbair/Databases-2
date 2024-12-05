@@ -134,6 +134,7 @@ public class Book_Resource extends JDialog {
             preparedStatement.execute();
             System.out.println("Added Book");
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
             System.out.println(e);
         }
 
@@ -159,6 +160,7 @@ public class Book_Resource extends JDialog {
 
             if(rs.next()){
                 bookNumber = rs.getInt("reference_id");
+
                 preparedStatement = connection.prepareStatement("DELETE FROM BookCopy WHERE book_ref=?");
                 preparedStatement.setInt(1, bookNumber);
                 preparedStatement.executeUpdate();
@@ -173,6 +175,7 @@ public class Book_Resource extends JDialog {
                 JOptionPane.showMessageDialog(this,"No Book Found with the given title: " + title);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
             System.out.println(e);
         }
 

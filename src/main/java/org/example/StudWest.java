@@ -5,10 +5,15 @@ public class StudWest extends JPanel{
 	JScrollPane scroll;
 	
 	public StudWest(){
+		this.setVisible(false);
 		display.setEditable(false);
 		scroll = new JScrollPane(display);
 		scroll.setBorder(BorderFactory.createTitledBorder("Display"));
 		this.add(scroll);
+	}
+
+	public void showPanel(){
+		this.setVisible(true);
 	}
 
 }

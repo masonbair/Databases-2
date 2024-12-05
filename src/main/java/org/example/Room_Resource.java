@@ -98,6 +98,7 @@ public class Room_Resource extends JDialog {
             preparedStatement.execute();
             System.out.println("Added Room");
         } catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
             System.out.println(e);
         }
 
@@ -128,6 +129,7 @@ public class Room_Resource extends JDialog {
             preparedStatement.execute();
             System.out.println("Deleted Room");
         } catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
             System.out.println(e);
         }
 
