@@ -51,7 +51,7 @@ public class LibNorth extends JPanel{
 		this.add(panel_info, BorderLayout.NORTH);
 		this.add(panel_butt, BorderLayout.SOUTH);
 		
-		ListenerLibOp listener = new ListenerLibOp();
+		ListenerLibOp listener = new ListenerLibOp(this);
 		butt_borr.setActionCommand(listener.BOR);
 		butt_borr.addActionListener(listener);
 		butt_ret.setActionCommand(listener.RET);

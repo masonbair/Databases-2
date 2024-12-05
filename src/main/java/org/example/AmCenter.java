@@ -134,7 +134,7 @@ public class AmCenter extends JPanel{
 		card_status.setText("");
 		card_res.setText("");
 	}
-
+// modify button 
 	public void openAddBookDialog() {
 		// Get the parent frame (you might need to adjust this depending on your main application structure)
 		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);

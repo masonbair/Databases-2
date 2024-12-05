@@ -22,11 +22,11 @@ public class ListenerAm implements ActionListener {
 	private PreparedStatement preparedStatement;
 	private AmCenter center = null;
 
-	public ListenerAm(AmCenter center) {
+	public ListenerAm(AmCenter center) {  // cust
 		this.center = center;
 		try{
 			db = new Database();
-			connection = db.getConnection();
+			connection = db.getConnection(); // add db as instance
 		}catch(Exception e){
 			System.out.println(e.getStackTrace());
 		}
@@ -37,7 +37,7 @@ public class ListenerAm implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getActionCommand().equals(REG)) {
-			addRegistration();
+			addRegistration();    // funcio go down
 			center.clear_text_boxes();
 
 			
@@ -63,9 +63,9 @@ public class ListenerAm implements ActionListener {
 	private void addRegistration() {
 		try {
 			if (center.get_card_code().length() != 0) {
-				preparedStatement = connection.prepareStatement("INSERT INTO library_card(status) VALUES (?)");
-				preparedStatement.setString(1, center.get_card_status());
-				preparedStatement.execute();
+				preparedStatement = connection.prepareStatement("INSERT INTO library_card(status) VALUES (?)"); // init query
+				preparedStatement.setString(1, center.get_card_status()); // (#numb of ?, get string)
+				preparedStatement.execute(); // run on db
 				System.out.println("Added Card");
 
 			}
