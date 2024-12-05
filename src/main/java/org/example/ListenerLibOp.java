@@ -50,9 +50,19 @@ public class ListenerLibOp implements ActionListener {
 
 
 			if (type_res.equals("room")){
+				try{
+					preparedStatement = connection.prepareStatement("INSERT INTO Borrow_room(room_num, student_id, date_start) VALUES (?, ?, ?)");
+					preparedStatement.setString(1, res_id);
+					preparedStatement.setString(2, stud_id);
+					preparedStatement.setDate(3, date);
+		
+					preparedStatement.execute();
 
-				// Add validation logic here
-			
+					System.out.println("Added Borrow_Room");
+
+				}catch(Exception exe){
+					System.out.println(exe);
+				}
 		
 				// Clear fields after saving
 
@@ -75,9 +85,21 @@ public class ListenerLibOp implements ActionListener {
 				}
 				
 				JOptionPane.showMessageDialog(null, "Borrow_relation added");
-			} else if (type_res.equals("computer")){
 
-						JOptionPane.showMessageDialog(null, 3);
+			} else if (type_res.equals("computer")){
+				try{
+					preparedStatement = connection.prepareStatement("INSERT INTO Borrow_computer(computer_id, student_id, date_start) VALUES (?, ?, ?)");
+					preparedStatement.setString(1, res_id);
+					preparedStatement.setString(2, stud_id);
+					preparedStatement.setDate(3, date);
+		
+					preparedStatement.execute();
+
+					System.out.println("Added Borrow_Computer");
+
+				}catch(Exception exe){
+					System.out.println(exe);
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Please select one from book, room, computer");
 			}
