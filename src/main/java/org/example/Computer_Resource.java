@@ -104,6 +104,7 @@ public class Computer_Resource extends JDialog {
             preparedStatement.execute();
             System.out.println("Added Computer");
         }catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
             System.out.println(e);
         }
 
@@ -135,6 +136,7 @@ public class Computer_Resource extends JDialog {
             preparedStatement.execute();
             System.out.println("Deleted Computer");
         }catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
             System.out.println(e);
         }
 

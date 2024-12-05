@@ -21,8 +21,12 @@ public class StudEast extends JPanel {
 	public JTextField borr = new JTextField(15);
 	private JButton butt_borr = new JButton("Display");
 	private JPanel panel_borr =  new JPanel(new FlowLayout(FlowLayout.TRAILING));
+
+	public String student;
+	public String password;
 	
 	public StudEast() {
+		this.setVisible(false);
 		
 		this.setLayout(new GridLayout(3,1));
 		
@@ -44,7 +48,7 @@ public class StudEast extends JPanel {
 		this.add(panel_borr);
 		
 		//Listner
-		ListenerStud listener = new ListenerStud();
+		ListenerStud listener = new ListenerStud(this);
 		
 		butt_pw.setActionCommand(listener.PW);
 		butt_pw.addActionListener(listener);
@@ -55,5 +59,9 @@ public class StudEast extends JPanel {
 		butt_borr.setActionCommand(listener.BOR);
 		butt_borr.addActionListener(listener);
 		
+	}
+
+	public void showPanel(){
+		this.setVisible(true);
 	}
 }
