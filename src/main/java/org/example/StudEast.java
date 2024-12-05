@@ -24,8 +24,11 @@ public class StudEast extends JPanel {
 
 	public String student;
 	public String password;
+
+	public StudWest studWest;
 	
-	public StudEast() {
+	public StudEast(StudWest SW) {
+		studWest = SW;
 		this.setVisible(false);
 		
 		this.setLayout(new GridLayout(3,1));
@@ -48,7 +51,7 @@ public class StudEast extends JPanel {
 		this.add(panel_borr);
 		
 		//Listner
-		ListenerStud listener = new ListenerStud(this);
+		ListenerStud listener = new ListenerStud(this, studWest);
 		
 		butt_pw.setActionCommand(listener.PW);
 		butt_pw.addActionListener(listener);

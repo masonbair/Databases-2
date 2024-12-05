@@ -11,7 +11,7 @@ public class Database {
             //You need to add the user name and password here
             connection = DriverManager.getConnection(
                     "jdbc:mysql://127.0.0.1:3307/Project2",
-                        "silvestro matteo", "DataBAS");
+                        "user", "12345");
             //-------------------------------------------------
             System.out.println("Database is connected!");
         }

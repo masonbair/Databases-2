@@ -67,8 +67,9 @@ public class StudFrame extends JPanel {
 			}
 		});
 
-		east = new StudEast();
+
 		west = new StudWest();
+		east = new StudEast(west);
 		this.add(loginPanel);
 		this.add(east, BorderLayout.EAST);
 		this.add(west, BorderLayout.WEST);
@@ -106,6 +107,10 @@ public class StudFrame extends JPanel {
 			JOptionPane.showMessageDialog(this, e);
 			System.out.println(e);
 		}
+	}
+
+	public void loadAvailableBooks(){
+
 	}
 
 	private void changePassword(){
