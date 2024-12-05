@@ -70,7 +70,7 @@ public class ListenerAm implements ActionListener {
 
 			}
 			if (center.get_stu_id().length() != 0) {
-				preparedStatement = connection.prepareStatement("INSERT INTO Student(student_id, first_name, last_name, address, email, phone, student_password, attends_uni, library_card) VALUES (?, ?, ?, 1, 'test@test.com', 1, 1, 1, 1)");
+				preparedStatement = connection.prepareStatement("INSERT INTO Student(student_id, first_name, last_name, address, email, phone, student_password, attends_uni) VALUES (?, ?, ?, 1, 'test@test.com', 1, 1, 1)");
 				preparedStatement.setString(1, center.get_stu_id());
 				preparedStatement.setString(2, center.get_stud_name());
 				preparedStatement.setString(3, center.get_stud_surname());
