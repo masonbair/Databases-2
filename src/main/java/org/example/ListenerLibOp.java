@@ -105,8 +105,88 @@ public class ListenerLibOp implements ActionListener {
 			}
 		}
 		else if(e.getActionCommand().equals(RET)){
+
+			// WHAT APPEND IF I TRY TO RESTITUETE ITEMS THAT ARE NOT BORROW
+
+			String type_res = ln.type.getText();
+			String stud_id = ln.stud_id.getText();
+			String res_id  = ln.res_id.getText();
+			LocalDate localDate = LocalDate.now();  // Get the current date
+            java.sql.Date date = java.sql.Date.valueOf(localDate);  // Convert to java.sql.Date
+
+			if(type_res.equals("") || stud_id.equals("") || res_id.equals("")){
+				JOptionPane.showMessageDialog(null,"Complete all the felds! Validation Error");
+				return;
+			}
+
+			if (type_res.equals("room")){
+				try{
+					String sql = "DELETE FROM Borrow_room WHERE student_id= ? AND room_id = ?";
+					preparedStatement = connection.prepareStatement(sql);
+					
+					preparedStatement.setString(1, stud_id);  
+					preparedStatement.setString(2, res_id);    
+					
+					// Execute the delete operation
+					int rowsAffected = preparedStatement.executeUpdate();  // Use executeUpdate() for DELETE
+					
+					// Check if the operation was successful
+					if (rowsAffected > 0) {
+						System.out.println("Record deleted successfully from borrow_room.");
+					} else {
+						System.out.println("No matching record found to delete.");
+					}
+				}catch(Exception exe){
+					System.out.println(exe);
+				}
+			}
+			else if (type_res.equals("book")){
+				try{
+					String sql = "DELETE FROM Borrow_book WHERE student_id = ? AND book_id = ?";
+					preparedStatement = connection.prepareStatement(sql);
+					
+					preparedStatement.setString(1, stud_id);  
+					preparedStatement.setString(2, res_id);    
+					
+					int rowsAffected = preparedStatement.executeUpdate();  
 			
-			JOptionPane.showMessageDialog(null, "test ret");
+					if (rowsAffected > 0) {
+						System.out.println("Record deleted successfully from borrow");
+					} else {
+						System.out.println("No matching record found to delete.");
+					}
+				}catch(Exception exe){
+					System.out.println(exe);
+				}
+				
+			} else if (type_res.equals("computer")){
+				try{
+					String sql = "DELETE FROM Borrow_computer WHERE student_id = ? AND computer_id = ?";
+					preparedStatement = connection.prepareStatement(sql);
+					
+					preparedStatement.setString(1, stud_id);  
+					preparedStatement.setString(2, res_id);    
+					
+					// Execute the delete operation
+					int rowsAffected = preparedStatement.executeUpdate();  // Use executeUpdate() for DELETE
+					
+					// Check if the operation was successful
+					if (rowsAffected > 0) {
+						System.out.println("Record deleted successfully from borrow_computer.");
+					} else {
+						System.out.println("No matching record found to delete.");
+					}
+					
+				}catch(Exception exe){
+					System.out.println(exe);
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Please select one from book, room, computer");
+				return;
+			}
+
+			JOptionPane.showMessageDialog(null, "Item returned!");
 		}
 	}
 	
