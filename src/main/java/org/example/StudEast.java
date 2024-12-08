@@ -13,19 +13,22 @@ public class StudEast extends JPanel {
 	private JPanel panel_pw =  new JPanel(new FlowLayout(FlowLayout.TRAILING));
 	
 	private JLabel txt_res = new JLabel("Select resource");
-	public JTextField res = new JTextField(15);
+	public JLabel res = new JLabel();
 	private JButton butt_res = new JButton ("Display");
 	private JPanel panel_res =  new JPanel(new FlowLayout(FlowLayout.TRAILING));
 	
 	private JLabel txt_borr = new JLabel("Display your borrows");
-	public JTextField borr = new JTextField(15);
+	public JLabel borr = new JLabel();
 	private JButton butt_borr = new JButton("Display");
 	private JPanel panel_borr =  new JPanel(new FlowLayout(FlowLayout.TRAILING));
 
 	public String student;
 	public String password;
+
+	public StudWest studWest;
 	
-	public StudEast() {
+	public StudEast(StudWest SW) {
+		studWest = SW;
 		this.setVisible(false);
 		
 		this.setLayout(new GridLayout(3,1));
@@ -48,7 +51,7 @@ public class StudEast extends JPanel {
 		this.add(panel_borr);
 		
 		//Listner
-		ListenerStud listener = new ListenerStud(this);
+		ListenerStud listener = new ListenerStud(this, studWest);
 		
 		butt_pw.setActionCommand(listener.PW);
 		butt_pw.addActionListener(listener);
