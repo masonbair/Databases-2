@@ -63,18 +63,27 @@ BEFORE INSERT ON Borrow_book
 FOR EACH ROW
 BEGIN
     DECLARE num_books INT;
+   DECLARE max_books_allowed INT;
+  
+	SELECT CASE
+		WHEN attends_uni = TRUE THEN 5
+		ELSE 1
+	END INTO max_books_allowed
+	FROM Student
+	WHERE student_id = new.student_id;
    
    SELECT COUNT(*) INTO num_books
    FROM Borrow_book 
    WHERE student_id = new.student_id;
+
    
-   IF num_books >= 5 THEN
+   IF num_books >= max_books_allowed THEN
 	   SIGNAL SQLSTATE '45000'
-	  	SET MESSAGE_TEXT = "The student cannot have more then 5 books checked out", MYSQL_ERRNO = 1001;
+	  	SET MESSAGE_TEXT = "The student has reached the borrowing limit.", MYSQL_ERRNO = 1001;
 	END IF;
 END;
 
--- DROP TRIGGER check_number_of_books;
+DROP TRIGGER check_number_of_books;
 
 
 CREATE TABLE Borrow_book(
@@ -172,5 +181,5 @@ ALTER TABLE Student ADD FOREIGN KEY (library_card) REFERENCES library_card(libra
 -- LEFT JOIN BookCopy ON BookCopy.barcode = Borrow_book.book_id
 -- WHERE Student.student_id = 1 AND student_password = "admin"; 
 
-INSERT INTO Borrow_book(student_id, book_id) VALUES (1, 1);
+-- INSERT INTO Borrow_book(student_id, book_id) VALUES (1, 1);
 
