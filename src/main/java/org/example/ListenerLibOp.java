@@ -19,11 +19,12 @@ public class ListenerLibOp implements ActionListener {
 	 private Database db = null;
 	 private Connection connection = null;
 	 private PreparedStatement preparedStatement;
+
 	 LibNorth ln;
 	 
 	 public ListenerLibOp(LibNorth ln) {
 		this.ln = ln;
-		  //Database iniy
+		  //Database init
 		  try {
             this.db = new Database();
             connection = db.getConnection();
@@ -35,73 +36,83 @@ public class ListenerLibOp implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		if (e.getActionCommand().equals(BOR)) {
 			if (ln.stud_id.equals("") || ln.res_id.equals("") || ln.type.equals("") ) {
-				JOptionPane.showMessageDialog(null,
-						"Type Res, Reference ID and Student ID are a required field! Validation Error");
-				return;
+					JOptionPane.showMessageDialog(null,
+							"Type Res, Reference ID and Student ID are a required field! Validation Error");
+					return;
 			}
 			String type_res = ln.type.getText();
 			String stud_id = ln.stud_id.getText();
 			String res_id  = ln.res_id.getText();
 			LocalDate localDate = LocalDate.now();  // Get the current date
-            java.sql.Date date = java.sql.Date.valueOf(localDate);  // Convert to java.sql.Date
+			java.sql.Date date = java.sql.Date.valueOf(localDate);  // Convert to java.sql.Date
 
+			//clean
+			ln.type.setText("");
+			ln.stud_id.setText("");
+			ln.res_id.setText("");
 
 			if (type_res.equals("room")){
 				try{
-					preparedStatement = connection.prepareStatement("INSERT INTO Borrow_room(room_num, student_id, date_start) VALUES (?, ?, ?)");
-					preparedStatement.setString(1, res_id);
-					preparedStatement.setString(2, stud_id);
-					preparedStatement.setDate(3, date);
-		
-					preparedStatement.execute();
+						preparedStatement = connection.prepareStatement("INSERT INTO Borrow_room(room_num, student_id, date_start) VALUES (?, ?, ?)");
+						preparedStatement.setString(1, res_id);
+						preparedStatement.setString(2, stud_id);
+						preparedStatement.setDate(3, date);
+			
+						preparedStatement.execute();
 
-					System.out.println("Added Borrow_Room");
-
+						System.out.println("Added Borrow_Room");
+				}catch(SQLException sql_e){
+						if (sql_e.getErrorCode() == 1001) {
+							System.out.println("ERROR: " + sql_e.getMessage());
+						}
 				}catch(Exception exe){
-					System.out.println(exe);
+						System.out.println(exe);
 				}
-		
-				// Clear fields after saving
-
-				JOptionPane.showMessageDialog(null, 1);
 			}
 			else if (type_res.equals("book")){
-				
+					
 				try{
-					preparedStatement = connection.prepareStatement("INSERT INTO Borrow_book(book_id, student_id, date_start) VALUES (?, ?, ?)");
-					preparedStatement.setString(1, res_id);
-					preparedStatement.setString(2, stud_id);
-					preparedStatement.setDate(3, date);
-		
-					preparedStatement.execute();
+						preparedStatement = connection.prepareStatement("INSERT INTO Borrow_book(book_id, student_id, date_start) VALUES (?, ?, ?)");
+						preparedStatement.setString(1, res_id);
+						preparedStatement.setString(2, stud_id);
+						preparedStatement.setDate(3, date);
+			
+						preparedStatement.execute();
 
-					System.out.println("Added Borrow_Book");
+						System.out.println("Added Borrow_Book");
 
+				}catch(SQLException sql_e){
+						if (sql_e.getErrorCode() == 1001) {
+							System.out.println("ERROR: " + sql_e.getMessage());
+						}
 				}catch(Exception exe){
-					System.out.println(exe);
+						System.out.println(exe);
+
 				}
-				
-				JOptionPane.showMessageDialog(null, "Borrow_relation added");
+					
+			JOptionPane.showMessageDialog(null, "Borrow_relation added");
 
 			} else if (type_res.equals("computer")){
 				try{
-					preparedStatement = connection.prepareStatement("INSERT INTO Borrow_computer(computer_id, student_id, date_start) VALUES (?, ?, ?)");
-					preparedStatement.setString(1, res_id);
-					preparedStatement.setString(2, stud_id);
-					preparedStatement.setDate(3, date);
-		
-					preparedStatement.execute();
+						preparedStatement = connection.prepareStatement("INSERT INTO Borrow_computer(computer_id, student_id, date_start) VALUES (?, ?, ?)");
+						preparedStatement.setString(1, res_id);
+						preparedStatement.setString(2, stud_id);
+						preparedStatement.setDate(3, date);
+			
+						preparedStatement.execute();
 
-					System.out.println("Added Borrow_Computer");
-
+						System.out.println("Added Borrow_Computer");
+				}catch(SQLException sql_e){
+						if (sql_e.getErrorCode() == 1001) {
+							System.out.println("ERROR: " + sql_e.getMessage());
+						}
 				}catch(Exception exe){
-					System.out.println(exe);
+						System.out.println(exe);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Please select one from book, room, computer");
+					JOptionPane.showMessageDialog(null, "Please select one from book, room, computer");
 			}
 		}
 		else if(e.getActionCommand().equals(RET)){
@@ -113,6 +124,11 @@ public class ListenerLibOp implements ActionListener {
 			String res_id  = ln.res_id.getText();
 			LocalDate localDate = LocalDate.now();  // Get the current date
             java.sql.Date date = java.sql.Date.valueOf(localDate);  // Convert to java.sql.Date
+
+			//clean
+			ln.type.setText("");
+			ln.stud_id.setText("");
+			ln.res_id.setText("");
 
 			if(type_res.equals("") || stud_id.equals("") || res_id.equals("")){
 				JOptionPane.showMessageDialog(null,"Complete all the felds! Validation Error");
@@ -128,7 +144,7 @@ public class ListenerLibOp implements ActionListener {
 					preparedStatement.setString(2, res_id);    
 					
 					// Execute the delete operation
-					int rowsAffected = preparedStatement.executeUpdate();  // Use executeUpdate() for DELETE
+					int rowsAffected = preparedStatement.executeUpdate();  
 					
 					// Check if the operation was successful
 					if (rowsAffected > 0) {
@@ -168,7 +184,7 @@ public class ListenerLibOp implements ActionListener {
 					preparedStatement.setString(2, res_id);    
 					
 					// Execute the delete operation
-					int rowsAffected = preparedStatement.executeUpdate();  // Use executeUpdate() for DELETE
+					int rowsAffected = preparedStatement.executeUpdate(); 
 					
 					// Check if the operation was successful
 					if (rowsAffected > 0) {

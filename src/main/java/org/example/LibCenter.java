@@ -14,4 +14,9 @@ public class LibCenter extends JPanel{
 		this.add(scroll);
 	}
 
+	// Getter for JTextArea
+    public JTextArea getDisplayLib() {
+        return this.display;
+    }
+
 }

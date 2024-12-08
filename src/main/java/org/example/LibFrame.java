@@ -6,7 +6,7 @@ public class LibFrame extends JPanel {
 	
 	LibNorth north = new LibNorth();
 	LibCenter center = new LibCenter();
-	LibSouth south = new LibSouth();
+	LibSouth south = new LibSouth(center.getDisplayLib());
 	
 	public LibFrame() {
 		
