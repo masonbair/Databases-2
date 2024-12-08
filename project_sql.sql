@@ -57,6 +57,15 @@ CREATE TABLE Student(
 	PRIMARY KEY(student_id)
 );
 
+-- FOR WORK ON MAKING SURE THE NUMBER OF BOOKS BORROWED STAY BELOW % OR SOMEIMES 1
+-- CREATE TRIGGER check_number_of_books BEFORE INSERT ON Borrow_book
+-- FOR EACH ROW
+-- BEGIN
+--     IF NEW.date_due IS NULL THEN
+--         SET NEW.date_due = DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY);
+--     END IF;
+-- END;
+
 CREATE TABLE Borrow_book(
 	book_id INT,
 	student_id INT,
@@ -142,3 +151,10 @@ ALTER TABLE Student ADD FOREIGN KEY (library_card) REFERENCES library_card(libra
 -- 
 -- INSERT INTO resource_card(r_number, date_act, status, resource)
 -- VALUES (1, CURRENT_DATE, "Active", "Book");
+
+
+-- SELECT * FROM Borrow_book
+-- LEFT JOIN Student ON Student.student_id = Borrow_book.student_id 
+-- LEFT JOIN BookCopy ON BookCopy.barcode = Borrow_book.book_id
+-- WHERE Student.student_id = 1 AND student_password = "admin"; 
+

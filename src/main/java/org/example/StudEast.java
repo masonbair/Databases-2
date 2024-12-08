@@ -13,12 +13,12 @@ public class StudEast extends JPanel {
 	private JPanel panel_pw =  new JPanel(new FlowLayout(FlowLayout.TRAILING));
 	
 	private JLabel txt_res = new JLabel("Select resource");
-	public JTextField res = new JTextField(15);
+	public JLabel res = new JLabel();
 	private JButton butt_res = new JButton ("Display");
 	private JPanel panel_res =  new JPanel(new FlowLayout(FlowLayout.TRAILING));
 	
 	private JLabel txt_borr = new JLabel("Display your borrows");
-	public JTextField borr = new JTextField(15);
+	public JLabel borr = new JLabel();
 	private JButton butt_borr = new JButton("Display");
 	private JPanel panel_borr =  new JPanel(new FlowLayout(FlowLayout.TRAILING));
 
