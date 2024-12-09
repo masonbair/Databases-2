@@ -196,6 +196,71 @@ ALTER TABLE Student ADD FOREIGN KEY (library_card) REFERENCES library_card(libra
 -- INSERT INTO resource_card(r_number, date_act, status, resource)
 -- VALUES (1, CURRENT_DATE, "Active", "Book");
 
+DELIMITER $$
+
+CREATE TRIGGER check_room_before_insert
+BEFORE INSERT ON room_stud
+FOR EACH ROW
+BEGIN
+    -- Check if the student's card has 'room' set to TRUE
+    DECLARE is_room_available BOOLEAN;
+
+    -- Get the 'room' value from the student's card
+    SELECT room INTO is_room_available
+    FROM card
+    WHERE card_id = NEW.card_id;
+
+    -- If 'room' is not TRUE, raise an error
+    IF is_room_available != TRUE THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to access the room.';
+    END IF;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER check_book_before_insert
+BEFORE INSERT ON book_stud
+FOR EACH ROW
+BEGIN
+    -- Check if the student's card has 'book' set to TRUE
+    DECLARE is_book_allowed BOOLEAN;
+
+    -- Get the 'book' value from the student's card
+    SELECT book INTO is_book_allowed
+    FROM card
+    WHERE card_id = NEW.card_id;
+
+    -- If 'book' is not TRUE, raise an error
+    IF is_book_allowed != TRUE THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to borrow a book.';
+    END IF;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER check_pc_before_insert
+BEFORE INSERT ON pc_stud
+FOR EACH ROW
+BEGIN
+    -- Check if the student's card has 'pc' set to TRUE
+    DECLARE is_pc_available BOOLEAN;
+
+    -- Get the 'pc' value from the student's card
+    SELECT pc INTO is_pc_available
+    FROM card
+    WHERE card_id = NEW.card_id;
+
+    -- If 'pc' is not TRUE, raise an error
+    IF is_pc_available != TRUE THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to access the PC.';
+    END IF;
+END $$
+
+DELIMITER ;
 
 -- SELECT * FROM Borrow_book
 -- LEFT JOIN Student ON Student.student_id = Borrow_book.student_id 
