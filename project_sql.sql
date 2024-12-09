@@ -95,6 +95,16 @@ CREATE TABLE Borrow_book(
 	FOREIGN KEY(student_id) REFERENCES Student(student_id)
 )
 
+CREATE TRIGGER check_for_book_borrow BEFORE INSERT ON Borrow_book
+FOR EACH ROW 
+BEGIN 
+	IF EXISTS(SELECT 1 FROM Borrow_book WHERE book_id = new.book_id) THEN 
+		SIGNAL SQLSTATE '45000'
+	  	SET MESSAGE_TEXT = "This book is already checked out", MYSQL_ERRNO=1001;
+	 END  IF;
+END;
+	
+
 CREATE TRIGGER set_date_due BEFORE INSERT ON Borrow_book
 FOR EACH ROW
 BEGIN
@@ -112,6 +122,15 @@ CREATE TABLE Borrow_computer(
 	FOREIGN KEY(student_id) REFERENCES Student(student_id)
 );
 
+CREATE TRIGGER check_for_computer_borrow BEFORE INSERT ON Borrow_computer
+FOR EACH ROW 
+BEGIN 
+	IF EXISTS(SELECT 1 FROM Borrow_computer WHERE computer_id = new.computer_id) THEN 
+		SIGNAL SQLSTATE '45000'
+	  	SET MESSAGE_TEXT = "This computer is already checked out", MYSQL_ERRNO=1001;
+	 END  IF;
+END;
+
 CREATE TRIGGER set_computer_due_date BEFORE INSERT ON Borrow_computer
 FOR EACH ROW
 BEGIN
@@ -122,12 +141,23 @@ END;
 
 CREATE TABLE Borrow_room(
 	room_num INT,
+
 	student_id INT,
 	date_start DATE default (CURRENT_DATE),
 	date_due DATE,
 	FOREIGN KEY(room_num) REFERENCES Room(room_num),
 	FOREIGN KEY(student_id) REFERENCES Student(student_id)
 );
+
+CREATE TRIGGER check_for_room_borrow BEFORE INSERT ON Borrow_room
+FOR EACH ROW 
+BEGIN 
+	IF EXISTS(SELECT 1 FROM Borrow_room WHERE room_nun = new.room_num) THEN 
+		SIGNAL SQLSTATE '45000'
+	  	SET MESSAGE_TEXT = "This room is already checked out", MYSQL_ERRNO=1001;
+	 END  IF;
+END;
+
 
 CREATE TRIGGER set_room_date_due 
 BEFORE INSERT ON Borrow_room
@@ -139,24 +169,15 @@ BEGIN
 END;
 
 
-
 CREATE TABLE library_card(
 	library_num INT UNIQUE NOT NULL AUTO_INCREMENT,
 	date_act DATE default (CURRENT_DATE),
 	status ENUM('Active', 'Deactive') DEFAULT 'Active',
+	room BOOLEAN DEFAULT FALSE,
+	book BOOLEAN DEFAULT FALSE,
+	computer BOOLEAN DEFAULT FALSE,
 	PRIMARY KEY(library_num)
 )
-
-CREATE TABLE resource_card(
-	r_number INT NOT NULL UNIQUE,
-	date_act DATE default (CURRENT_DATE),
-	status ENUM('Active', 'Deactive') DEFAULT 'Active',
-	resource ENUM('Book', 'Room','Computer') DEFAULT'Book',
-	PRIMARY KEY(r_number)
-)
-
-ALTER TABLE resource_card ADD COLUMN lib_card INT;
-ALTER TABLE resource_card ADD FOREIGN KEY (lib_card) REFERENCES library_card(library_num);
 
 ALTER TABLE Student ADD COLUMN library_card INT;
 ALTER TABLE Student ADD FOREIGN KEY (library_card) REFERENCES library_card(library_num);

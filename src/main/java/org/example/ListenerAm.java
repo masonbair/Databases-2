@@ -83,7 +83,7 @@ public class ListenerAm implements ActionListener {
 				preparedStatement = connection.prepareStatement("INSERT INTO resource_card(r_number, status, resource, lib_card) VALUES (?, ?, ?, 1)");
 				preparedStatement.setString(1, center.get_res_id());
 				preparedStatement.setString(2, center.get_res_status());
-				preparedStatement.setString(2, center.get_res_type());
+				preparedStatement.setString(3, center.get_res_type());
 				preparedStatement.execute();
 				System.out.println("Added Resource");
 

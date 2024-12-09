@@ -96,10 +96,10 @@ public class StudFrame extends JPanel {
 
 
 			if(rs.next()){
-
+				loginPanel.setVisible(false);
 				east.showPanel();
 				west.showPanel();
-				loginPanel.setVisible(false);
+
 			}else{
 				JOptionPane.showMessageDialog(this,"Username or Password incorrect: " + student);
 			}

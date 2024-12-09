@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class ListenerStud implements ActionListener {
@@ -78,7 +79,7 @@ public class ListenerStud implements ActionListener {
 
 			ResultSet rs = preparedStatement.executeQuery();
 			System.out.println("Created and ran Query");
-			String[][] data = new String[10][4];
+			String[][] data = new String[50][4];
 			int i = 0;
 			while (rs.next() && i < data.length) {
 				System.out.println("Adding data to the data section");
@@ -114,7 +115,7 @@ public class ListenerStud implements ActionListener {
 
 			ResultSet rs = preparedStatement.executeQuery();
 			System.out.println("Created and ran Query");
-			String[][] data = new String[10][4];
+			String[][] data = new String[50][4];
 			int i = 0;
 			while (rs.next() && i < data.length) {
 				System.out.println("Adding data to the data section");
