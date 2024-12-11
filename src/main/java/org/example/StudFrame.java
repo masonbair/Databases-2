@@ -118,7 +118,7 @@ public class StudFrame extends JPanel {
 		System.out.println("Name of student: " + student);
 
 		try {
-			preparedStatement = connection.prepareStatement("UPDATE Student SET student_password=? WHERE student_id=? AND student_password=?");
+			preparedStatement = connection.prepareStatement("UPDATE Student SET student_password=? WHERE student_id=?");
 			preparedStatement.setString(1, new_password);
 			preparedStatement.setString(2, student);
 			preparedStatement.setString(3, password);

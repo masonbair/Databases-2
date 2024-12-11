@@ -65,10 +65,13 @@ public class ListenerLibOp implements ActionListener {
 						System.out.println("Added Borrow_Room");
 						JOptionPane.showMessageDialog(null, "Borrow_relation added");
 				}catch(SQLException sql_e){
-						if (sql_e.getErrorCode() == 1001) {
-							JOptionPane.showMessageDialog(null, "ERROR: " + sql_e.getMessage());
-							System.out.println("ERROR: " + sql_e.getMessage());
-						}
+					if (sql_e.getErrorCode() == 1001) {
+						JOptionPane.showMessageDialog(null, "ERROR: " + sql_e.getMessage());
+						System.out.println("ERROR: " + sql_e.getMessage());
+					}else{
+						JOptionPane.showMessageDialog(null, "The student or book does not exist");
+						System.out.println("ERROR: " + sql_e.getMessage());
+					}
 				}catch(Exception exe){
 						System.out.println(exe);
 				}
@@ -115,9 +118,13 @@ public class ListenerLibOp implements ActionListener {
 
 						System.out.println("Added Borrow_Computer");
 				}catch(SQLException sql_e){
-						if (sql_e.getErrorCode() == 1001) {
-							System.out.println("ERROR: " + sql_e.getMessage());
-						}
+					if (sql_e.getErrorCode() == 1001) {
+						JOptionPane.showMessageDialog(null, "ERROR: " + sql_e.getMessage());
+						System.out.println("ERROR: " + sql_e.getMessage());
+					}else{
+						JOptionPane.showMessageDialog(null, "The student or book does not exist");
+						System.out.println("ERROR: " + sql_e.getMessage());
+					}
 				}catch(Exception exe){
 						System.out.println(exe);
 				}

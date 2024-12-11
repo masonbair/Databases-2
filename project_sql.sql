@@ -5,6 +5,8 @@ CREATE DATABASE Project2;
 
 USE Project2;
 
+SET @encryption_key = "vcqAQuAB6zC6yCTN3B+PAw==";
+
 CREATE TABLE Book(
 	title VARCHAR(30) NOT NULL UNIQUE,
 	language VARCHAR(10),
@@ -46,18 +48,59 @@ CREATE TABLE Room(
 DROP TABLE Student;
 
 CREATE TABLE Student(
-	student_id INT NOT NULL UNIQUE,
+	student_id INT NOT NULL UNIQUE AUTO_INCREMENT,
 	first_name varchar(10),
 	last_name varchar(10),
 	address varchar(15),
 	email varchar(20) CHECK (REGEXP_LIKE(email, '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')) default "null@null.com",
 	phone varchar(9),
-	student_password varchar(12),
+	student_password VARCHAR(255),
 	attends_uni BOOLEAN DEFAULT TRUE,
 	PRIMARY KEY(student_id)
 );
 
+
+-- I HAVE NOT ABLE TO GET THE ENCRYPTION TO WORK FOR THE SQL ---------------------------------------------------------------------------------------------------
+
+-- ENCRYPTION ON INSERT
+-- DROP TRIGGER EncryptPasswordBeforeInsert;
+-- 
+-- CREATE TRIGGER EncryptPasswordBeforeInsert
+-- BEFORE INSERT ON Student
+-- FOR EACH ROW
+-- BEGIN
+--    IF NEW.student_password IS NOT NULL AND NEW.student_password != '' THEN
+--         SET NEW.student_password = HEX(AES_ENCRYPT(NEW.student_password, @encryption_key));
+--     END IF;
+-- END;
+-- 
+-- DROP TRIGGER EncryptPasswordBeforeUpdate;
+-- 
+-- CREATE TRIGGER EncryptPasswordBeforeUpdate
+-- BEFORE UPDATE ON Student
+-- FOR EACH ROW
+-- BEGIN
+--     IF NEW.student_password IS NOT NULL AND NEW.student_password != '' THEN
+--         SET NEW.student_password = HEX(AES_ENCRYPT(NEW.student_password, @encryption_key));
+--     END IF;
+-- END;
+
+
+
+-- DROP TRIGGER check_number_of_books;
+
+
+CREATE TABLE Borrow_book(
+	book_id INT,
+	student_id INT,
+	date_start DATE default (CURRENT_DATE),
+	date_due DATE,
+	FOREIGN KEY(book_id) REFERENCES BookCopy(barcode),
+	FOREIGN KEY(student_id) REFERENCES Student(student_id)
+)
+
 -- FOR WORK ON MAKING SURE THE NUMBER OF BOOKS BORROWED STAY BELOW % OR SOMEIMES 1
+
 CREATE TRIGGER check_number_of_books
 BEFORE INSERT ON Borrow_book
 FOR EACH ROW
@@ -82,18 +125,6 @@ BEGIN
 	  	SET MESSAGE_TEXT = "The student has reached the borrowing limit.", MYSQL_ERRNO = 1001;
 	END IF;
 END;
-
-DROP TRIGGER check_number_of_books;
-
-
-CREATE TABLE Borrow_book(
-	book_id INT,
-	student_id INT,
-	date_start DATE default (CURRENT_DATE),
-	date_due DATE,
-	FOREIGN KEY(book_id) REFERENCES BookCopy(barcode),
-	FOREIGN KEY(student_id) REFERENCES Student(student_id)
-)
 
 CREATE TRIGGER check_for_book_borrow BEFORE INSERT ON Borrow_book
 FOR EACH ROW 
@@ -141,7 +172,6 @@ END;
 
 CREATE TABLE Borrow_room(
 	room_num INT,
-
 	student_id INT,
 	date_start DATE default (CURRENT_DATE),
 	date_due DATE,
@@ -149,10 +179,12 @@ CREATE TABLE Borrow_room(
 	FOREIGN KEY(student_id) REFERENCES Student(student_id)
 );
 
+DROP TRIGGER check_for_room_borrow;
+
 CREATE TRIGGER check_for_room_borrow BEFORE INSERT ON Borrow_room
 FOR EACH ROW 
 BEGIN 
-	IF EXISTS(SELECT 1 FROM Borrow_room WHERE room_nun = new.room_num) THEN 
+	IF EXISTS(SELECT 1 FROM Borrow_room WHERE room_num = new.room_num) THEN 
 		SIGNAL SQLSTATE '45000'
 	  	SET MESSAGE_TEXT = "This room is already checked out", MYSQL_ERRNO=1001;
 	 END  IF;
@@ -199,66 +231,71 @@ ALTER TABLE Student ADD FOREIGN KEY (library_card) REFERENCES library_card(libra
 DELIMITER $$
 
 CREATE TRIGGER check_room_before_insert
-BEFORE INSERT ON room_stud
+BEFORE INSERT ON Borrow_room
 FOR EACH ROW
 BEGIN
-    -- Check if the student's card has 'room' set to TRUE
-    DECLARE is_room_available BOOLEAN;
+    -- Check if the student's card has 'book' set to TRUE
+    DECLARE is_room_allowed BOOLEAN DEFAULT FALSE;
 
-    -- Get the 'room' value from the student's card
-    SELECT room INTO is_room_available
-    FROM card
-    WHERE card_id = NEW.card_id;
+    -- Get the 'book' value from the student's card
+    SELECT C.room INTO is_room_allowed
+    FROM Student S
+    INNER JOIN library_card C ON C.library_num = S.library_card
+    WHERE S.student_id = NEW.student_id;
 
-    -- If 'room' is not TRUE, raise an error
-    IF is_room_available != TRUE THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to access the room.';
+    -- If 'book' is not TRUE, raise an error
+    IF is_room_allowed != TRUE THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to borrow a room.', MYSQL_ERRNO=1001;
     END IF;
-END $$
+END;
 
 DELIMITER ;
 
 DELIMITER $$
 
+DROP TRIGGER check_book_before_insert;
+
 CREATE TRIGGER check_book_before_insert
-BEFORE INSERT ON book_stud
+BEFORE INSERT ON Borrow_book
 FOR EACH ROW
 BEGIN
     -- Check if the student's card has 'book' set to TRUE
-    DECLARE is_book_allowed BOOLEAN;
+    DECLARE is_book_allowed BOOLEAN DEFAULT FALSE;
 
     -- Get the 'book' value from the student's card
-    SELECT book INTO is_book_allowed
-    FROM card
-    WHERE card_id = NEW.card_id;
+    SELECT C.book INTO is_book_allowed
+    FROM Student S
+    INNER JOIN library_card C ON C.library_num = S.library_card
+    WHERE S.student_id = NEW.student_id;
 
     -- If 'book' is not TRUE, raise an error
     IF is_book_allowed != TRUE THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to borrow a book.';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to borrow a book.', MYSQL_ERRNO=1001;
     END IF;
-END $$
+END;
 
 DELIMITER ;
 
 DELIMITER $$
 
 CREATE TRIGGER check_pc_before_insert
-BEFORE INSERT ON pc_stud
+BEFORE INSERT ON Borrow_computer
 FOR EACH ROW
 BEGIN
-    -- Check if the student's card has 'pc' set to TRUE
-    DECLARE is_pc_available BOOLEAN;
+    -- Check if the student's card has 'book' set to TRUE
+    DECLARE is_pc_allowed BOOLEAN DEFAULT FALSE;
 
-    -- Get the 'pc' value from the student's card
-    SELECT pc INTO is_pc_available
-    FROM card
-    WHERE card_id = NEW.card_id;
+    -- Get the 'book' value from the student's card
+    SELECT C.computer INTO is_pc_allowed
+    FROM Student S
+    INNER JOIN library_card C ON C.library_num = S.library_card
+    WHERE S.student_id = NEW.student_id;
 
-    -- If 'pc' is not TRUE, raise an error
-    IF is_pc_available != TRUE THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to access the PC.';
+    -- If 'book' is not TRUE, raise an error
+    IF is_pc_allowed != TRUE THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: The student is not allowed to borrow a Computer.', MYSQL_ERRNO=1001;
     END IF;
-END $$
+END;
 
 DELIMITER ;
 
@@ -268,4 +305,11 @@ DELIMITER ;
 -- WHERE Student.student_id = 1 AND student_password = "admin"; 
 
 -- INSERT INTO Borrow_book(student_id, book_id) VALUES (1, 1);
+
+-- INSERT INTO Student(student_id, student_password) values (4,'1');
+-- UPDATE Student SET student_password=1 WHERE student_id=1;
+-- 
+-- SELECT AES_DECRYPT(UNHEX(student_password), @encrpytion_key) AS decrypted_password, student_password 
+-- FROM Student
+-- WHERE student_id=4;
 

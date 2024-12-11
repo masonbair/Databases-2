@@ -15,11 +15,12 @@ public class AmFrame extends JPanel{
 	private JButton room_button = new JButton("Modify Room");
 	private JButton comp_button = new JButton("Modify Computer");
 	private JButton cp_book_button = new JButton("Modify Book Copy");
+	private JButton student_button =  new JButton("Modify Students");
 	private JPanel panel_but = new JPanel(new GridLayout(3,3));
 
 	public AmFrame() {
 		//The JLabels represent empty spaces. new buttons can be added in its place.
-		panel_but.add(new JLabel(""));
+		panel_but.add(student_button);
 		panel_but.add(cp_book_button);
 		panel_but.add(new JLabel(""));
 		panel_but.add(book_button);
@@ -54,5 +55,8 @@ public class AmFrame extends JPanel{
 
 		cp_book_button.setActionCommand(listener.COPY);
 		cp_book_button.addActionListener(listener);
+
+		student_button.setActionCommand(listener.STU);
+		student_button.addActionListener(listener);
 	}
 }
