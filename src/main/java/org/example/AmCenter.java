@@ -7,9 +7,9 @@ import javax.swing.*;
 
 public class AmCenter extends JPanel{
 
-	private JLabel txt_card_code = new JLabel("Card_barcode");
-	private JLabel txt_card_status = new JLabel("Card_status or Student_id");
-	private JLabel txt_card_res = new JLabel("Card_res");
+	private JLabel txt_card_code = new JLabel("Card barcode");
+	private JLabel txt_card_status = new JLabel("Card status or Student_id");
+	private JLabel txt_card_res = new JLabel("Card Resource");
 
 	public JTextField card_code = new  JTextField ();
 	public JTextField card_status = new  JTextField ();

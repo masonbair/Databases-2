@@ -104,6 +104,27 @@ public class ListenerAm implements ActionListener {
 				System.out.println("Associated Student and Library card");
 
 			}
+			if (center.get_card_res().length() != 0 && center.get_card_code().length() != 0) {
+				if(center.get_card_res().toLowerCase().equals("book")){
+					preparedStatement = connection.prepareStatement("UPDATE library_card SET book=1");
+					preparedStatement.execute();
+					System.out.println("Associated Book with library card");
+				}else if(center.get_card_res().toLowerCase().equals("computer")){
+					preparedStatement = connection.prepareStatement("UPDATE library_card SET computer=1");
+					preparedStatement.execute();
+					System.out.println("Associated Computer with library card");
+				}else if(center.get_card_res().toLowerCase().equals("room")){
+					preparedStatement = connection.prepareStatement("UPDATE library_card SET room=1");
+					preparedStatement.execute();
+					System.out.println("Associated Room with library card");
+				}
+				preparedStatement = connection.prepareStatement("UPDATE Student SET library_card=? WHERE student_id=?");
+				preparedStatement.setString(1, center.get_card_code());
+				preparedStatement.setString(2, center.get_card_status());
+				preparedStatement.execute();
+				System.out.println("Associated Student and Library card");
+
+			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}
