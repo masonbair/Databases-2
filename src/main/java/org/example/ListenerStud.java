@@ -105,6 +105,8 @@ public class ListenerStud implements ActionListener {
 
 	private void showCurrentBorrows(){
 		try {
+			String[][] data = new String[50][4];
+			//passed due data for book
 			preparedStatement = connection.prepareStatement("SELECT * FROM Borrow_book\n" +
 					"LEFT JOIN Student ON Student.student_id = Borrow_book.student_id \n" +
 					"LEFT JOIN BookCopy ON BookCopy.barcode = Borrow_book.book_id\n" +
@@ -113,17 +115,56 @@ public class ListenerStud implements ActionListener {
 			preparedStatement.setString(1, stud_east.student);
 			preparedStatement.setString(2, stud_east.password);
 
-			ResultSet rs = preparedStatement.executeQuery();
-			System.out.println("Created and ran Query");
-			String[][] data = new String[50][4];
+			ResultSet rs_book = preparedStatement.executeQuery();
+
 			int i = 0;
-			while (rs.next() && i < data.length) {
-				System.out.println("Adding data to the data section");
-				data[i][0] = rs.getString("book_ref");
-				data[i][1] = rs.getString("barcode");
-				data[i][2] = rs.getString("date_start");
-				data[i][3] = rs.getString("date_due");
+			while (rs_book.next() && i < data.length) {
+				data[i][0] = rs_book.getString("book_ref");
+				data[i][1] = rs_book.getString("barcode");
+				data[i][2] = rs_book.getString("date_start");
+				data[i][3] = rs_book.getString("date_due");
 				i++;
+			}
+			// pass due data for pc
+			preparedStatement = connection.prepareStatement("SELECT * FROM Borrow_computer\n" +
+					"LEFT JOIN Student ON Student.student_id = Borrow_computer.student_id \n" +
+					"LEFT JOIN Computer ON Computer.barcode = Borrow_computer.computer_id\n" +
+					"WHERE Student.student_id = ? AND student_password = ?");
+
+			preparedStatement.setString(1, stud_east.student);
+			preparedStatement.setString(2, stud_east.password);
+			
+			ResultSet rs_pc = preparedStatement.executeQuery();
+			System.out.println("Created and ran Query");
+			int j = 0;
+			while (rs_pc.next() && j < data.length) {
+				data[i][0] = rs_pc.getString("model");
+				data[i][1] = rs_pc.getString("barcode");
+				data[i][2] = rs_pc.getString("date_start");
+				data[i][3] = rs_pc.getString("date_due");
+				i++;
+				j++;
+			}
+			// pass due data for room
+			preparedStatement = connection.prepareStatement("SELECT * FROM Borrow_room\n" +
+					"LEFT JOIN Student ON Student.student_id = Borrow_room.student_id \n" +
+					"LEFT JOIN Room ON Room.room_num = Borrow_room.room_num\n" +
+					"WHERE Student.student_id = ? AND student_password = ?");
+
+			preparedStatement.setString(1, stud_east.student);
+			preparedStatement.setString(2, stud_east.password);
+
+			ResultSet rs_room = preparedStatement.executeQuery();
+			System.out.println("Created and ran Query");
+			int z = 0;
+			while (rs_room.next() && z < data.length) {
+				System.out.println("Adding data to the data section");
+				data[i][0] = rs_room.getString("room_num");
+				data[i][1] = rs_room.getString("room_num");
+				data[i][2] = rs_room.getString("date_start");
+				data[i][3] = rs_room.getString("date_due");
+				i++;
+				z++;
 			}
 
 			DefaultTableModel model = new DefaultTableModel(data, stud_west.book_column);

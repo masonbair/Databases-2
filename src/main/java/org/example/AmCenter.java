@@ -62,27 +62,27 @@ public class AmCenter extends JPanel{
 		addStu.setVisible(true);
 	}
 	public void openAddBookDialog() {
-		// Get the parent frame (you might need to adjust this depending on your main application structure)
+		// Get the parent frame 
 		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 		Book_Resource addBookDialog = new Book_Resource(parentFrame);
 		addBookDialog.setVisible(true);
 	}
 	public void openAddComputerDialog() {
-		// Get the parent frame (you might need to adjust this depending on your main application structure)
+		// Get the parent frame 
 		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 		Computer_Resource addComputerDialog = new Computer_Resource(parentFrame);
 		addComputerDialog.setVisible(true);
 	}
 
 	public void openAddRoomDialog() {
-		// Get the parent frame (you might need to adjust this depending on your main application structure)
+		// Get the parent frame 
 		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 		Room_Resource addRoomDialog = new Room_Resource(parentFrame);
 		addRoomDialog.setVisible(true);
 	}
 
 	public void openNewBookCopyDialog() {
-		// Get the parent frame (you might need to adjust this depending on your main application structure)
+		// Get the parent frame 
 		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 		Copy_Book_Resource addRoomDialog = new Copy_Book_Resource(parentFrame);
 		addRoomDialog.setVisible(true);
